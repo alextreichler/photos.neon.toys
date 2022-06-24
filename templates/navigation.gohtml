@@ -1,0 +1,43 @@
+{{define "nav"}}
+<nav class="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3">
+  <div class="container px-4 mx-auto flex flex-wrap items-center justify-between rounded-lg border-solid border-b-4 border-pink-500">
+    <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
+      <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" href="/">
+        <div class="w-6/12 sm:w-4/12">
+            <img src="https://iili.io/hDpRiF.md.png" alt="" />
+        </div>
+      </a>
+      <button class="cursor-pointer text-2xl leading-none px-3 py-2 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('collapse-navbar')">
+        <i class="fa-solid fa-burger fa-2x"></i>
+      </button>
+    </div>
+    <div class="lg:flex flex-grow items-center hidden" id="collapse-navbar">
+      <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+      <li class="nav-item">
+          <a class="px-3 py-2 flex items-center text-s font-bold leading-snug hover:opacity-75 hover:underline" href="/">
+            <span class="ml-2">Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="px-3 py-2 flex items-center text-s  font-bold leading-snug hover:opacity-75 hover:underline" href="#">
+            <span class="ml-2">Log in</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="flex items-center px-3 py-2 bg-pink-500 font-bold leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out" href="#">
+            <span class="ml-2">Sign up</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script>
+  function toggleNavbar(collapseID){
+    document.getElementById(collapseID).classList.toggle("hidden");
+    document.getElementById(collapseID).classList.toggle("flex");
+    document.getElementById(collapseID).classList.toggle("text-4xl");
+  }
+</script>
+{{end}}
+
