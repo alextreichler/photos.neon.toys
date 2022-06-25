@@ -1,0 +1,24 @@
+{{define "page"}}
+<div class="container mx-auto">
+    <h1 class="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center">Share photos with friends and the world!</h1>
+    <p class="mt-6 text-lg text-slate-600 text-center max-w-3xl mx-auto dark:text-slate-400">Fill out the information below to create your account and get started today.</p>
+</div>
+<div class="flex justify-center px-6 pt-6">
+    <div class="flex-auto px-8 py-8 bg-neutral-100 rounded shadow shadow-pink-500 max-w-xl">
+        <form action="/users" method="post">
+        <div class="py-1">
+            <input name="email" id="email" type="email" placeholder="Email" required autocomplete="email" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded"/>
+        </div>
+        <div class="py-1">
+            <input name="password" id="password" type="password" placeholder="password" required class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded">
+        </div>
+        <div class="py-1">
+            <button class="w-full py-4 px-2 rounded font-bold text-lg bg-lime-500 hover:bg-lime-600 text-neutral-100 shadow-lg" type="submit">Create</button>
+        </div>
+        <div class="text-s text-neutral-600 py-8 w-full flex justify-between">
+            <p>Already have an account? <a href="/signin" class="underline decoration-wavy decoration-2 decoration-blue-500 text-bold">Sign in</a></p>
+        </div>
+        </form>
+    </div>
+</div>
+{{end}}
