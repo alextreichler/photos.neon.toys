@@ -20,11 +20,7 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
-    err := r.ParseForm()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	fmt.Fprint(w, "Email: ", r.PostForm.Get("email"))
-	fmt.Fprint(w, "Password: ", r.PostForm.Get("password"))
+
+	fmt.Fprint(w, "Email: ", r.FormValue("email"))
+	fmt.Fprint(w, "Password: ", r.FormValue("password"))
 }
