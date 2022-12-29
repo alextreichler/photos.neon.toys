@@ -25,7 +25,7 @@ func DefaultPostgresConfig() PostgresConfig {
 		Port:     "5432",
 		User:     "baloo",
 		Password: "junglebook",
-		Database: "lenslocked",
+		Database: "photos_neon_toys",
 		SSLMode:  "disable",
 	}
 }
