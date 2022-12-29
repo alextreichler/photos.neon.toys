@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/straightbuggin/photos.neon.toys/controllers"
+	"github.com/straightbuggin/photos.neon.toys/models"
 	"github.com/straightbuggin/photos.neon.toys/templates"
 	"github.com/straightbuggin/photos.neon.toys/views"
 )
@@ -17,7 +18,21 @@ func main() {
 	tpl := views.Must(views.ParseFS(templates.FS, "tailwind.gohtml", "navigation.gohtml", "footer.gohtml", "home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
-	usersC := controllers.Users{}
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	userService := models.UserService{
+		DB: db,
+	}
+
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
 	usersC.Templates.New = views.Must(views.ParseFS(
 		templates.FS,
 		"tailwind.gohtml", "navigation.gohtml", "footer.gohtml", "signup.gohtml",
