@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/csrf"
 	"github.com/straightbuggin/photos.neon.toys/controllers"
 	"github.com/straightbuggin/photos.neon.toys/models"
 	"github.com/straightbuggin/photos.neon.toys/templates"
@@ -52,5 +53,12 @@ func main() {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", r)
+
+	csrfKey := "gFvi45R4f15xNblnEeZOQbfAVCYEIAU7"
+	csrfMw := csrf.Protect(
+		[]byte(csrfKey),
+		// TODO: fix
+		csrf.Secure(false),
+	)
+	http.ListenAndServe(":3000", csrfMw(r))
 }
