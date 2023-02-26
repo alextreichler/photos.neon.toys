@@ -6,7 +6,10 @@
 <div class="flex justify-center px-6 pt-6">
     <div class="flex-auto px-8 py-8 bg-neutral-100 rounded shadow shadow-fuchsia-500 max-w-xl">
         <form action="/signin" method="post">
-            <div class="py-1">
+          <div class="py-1">
+	    <div class="hidden">
+	      {{csrfField}}
+	      </div>
                 <input name="email" value="{{.Email}}" id="email" type="email" placeholder="Email" required
                     autocomplete="email"
                     class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded" {{if not

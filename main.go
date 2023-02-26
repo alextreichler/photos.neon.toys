@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/gorilla/csrf"
 	"github.com/straightbuggin/photos.neon.toys/controllers"
 	"github.com/straightbuggin/photos.neon.toys/models"
@@ -15,6 +16,7 @@ import (
 func main() {
 
 	r := chi.NewRouter()
+	r.Use(middleware.Logger)
 
 	tpl := views.Must(views.ParseFS(templates.FS, "tailwind.gohtml", "navigation.gohtml", "footer.gohtml", "home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
@@ -48,6 +50,7 @@ func main() {
 	r.Post("/users", usersC.Create)
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
+	r.Get("/users/me", usersC.CurrentUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
