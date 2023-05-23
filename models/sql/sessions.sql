@@ -3,3 +3,5 @@ CREATE TABLE sessions (
   user_id INT UNIQUE,
   token_hash TEXT UNIQUE NOT NULL    
 );
+
+
