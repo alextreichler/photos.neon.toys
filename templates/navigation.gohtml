@@ -17,7 +17,15 @@
           <a class="px-3 py-2 flex items-center text-s font-bold leading-snug hover:opacity-75 hover:underline" href="/">
             <span class="ml-2">Home</span>
           </a>
-        </li>
+      </li>
+      <li class="nav-item">
+        <form action="/signout" class="px-3 py-2 flex items-center text-s font-bold leading-snug hover:opacity-75 hover:underline" method="post">
+          <div class="hidden">
+            {{csrfField}}
+          </div>
+          <button type="submit">Logout</button>
+        </form>
+      </li>
         <li class="nav-item">
           <a class="px-3 py-2 flex items-center text-s  font-bold leading-snug hover:opacity-75 hover:underline" href="signin">
             <span class="ml-2">Log in</span>
@@ -34,8 +42,8 @@
 </nav>
 <script>
   function toggleNavbar(collapseID){
-    document.getElementById(collapseID).classList.toggle("hidden");
-    document.getElementById(collapseID).classList.toggle("flex");
+  document.getElementById(collapseID).classList.toggle("hidden");
+  document.getElementById(collapseID).classList.toggle("flex");
     document.getElementById(collapseID).classList.toggle("text-4xl");
   }
 </script>
