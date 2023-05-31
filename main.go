@@ -18,7 +18,11 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	tpl := views.Must(views.ParseFS(templates.FS, "tailwind.gohtml", "navigation.gohtml", "footer.gohtml", "home.gohtml"))
+	tpl := views.Must(views.ParseFS(templates.FS,
+		"tailwind.gohtml",
+		"navigation.gohtml",
+		"footer.gohtml",
+		"home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
 	cfg := models.DefaultPostgresConfig()
