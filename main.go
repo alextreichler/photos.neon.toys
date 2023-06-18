@@ -11,6 +11,7 @@ import (
 	"github.com/straightbuggin/photos.neon.toys/models"
 	"github.com/straightbuggin/photos.neon.toys/templates"
 	"github.com/straightbuggin/photos.neon.toys/views"
+		"github.com/straightbuggin/photos.neon.toys/migrations"
 )
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
 
 	defer db.Close()
 
-	err = models.Migrate(db, "migrations")
+	err = models.MigrateFS(db, migrations.FS, ".")
 	if err != nil {
 		panic(err)
 	}
