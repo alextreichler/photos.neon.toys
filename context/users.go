@@ -17,7 +17,7 @@ func WithUser(ctx context.Context, user *models.User) context.Context {
 }
 
 func User(ctx context.Context) *models.User {
-	val := ctx.Value(userkey)
+	val := ctx.Value(userKey)
 	user, ok := val.(*models.User)
 	if !ok {
 		// the most likely case is that nothgin was ever stored in the context,
