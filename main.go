@@ -15,17 +15,7 @@ import (
 )
 
 func main() {
-
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-
-	tpl := views.Must(views.ParseFS(templates.FS,
-		"tailwind.gohtml",
-		"navigation.gohtml",
-		"footer.gohtml",
-		"home.gohtml"))
-	r.Get("/", controllers.StaticHandler(tpl))
-
+	// Setup Database
 	cfg := models.DefaultPostgresConfig()
 	db, err := models.Open(cfg)
 	if err != nil {
@@ -39,12 +29,26 @@ func main() {
 		panic(err)
 	}
 
+	// Setup Services
 	userService := models.UserService{
 		DB: db,
 	}
 	sessionService := models.SessionService{
 		DB: db,
 	}
+
+	// Setup Middleware
+	umw := controllers.UserMiddleware{
+		SessionService: &sessionService,
+	}
+	csrfKey := "gFvi45R4f15xNblnEeZOQbfAVCYEIAU7"
+	csrfMw := csrf.Protect(
+		[]byte(csrfKey),
+		// TODO: fix
+		csrf.Secure(false),
+	)
+
+	// Setup controllers
 	usersC := controllers.Users{
 		UserService:    &userService,
 		SessionService: &sessionService,
@@ -59,27 +63,34 @@ func main() {
 		"tailwind.gohtml", "navigation.gohtml", "footer.gohtml", "signin.gohtml",
 	))
 
+	// Setup Routes
+	r := chi.NewRouter()
+	r.Use(csrfMw)
+	r.Use(umw.SetUser)
+	r.Use(middleware.Logger)
+
+	tpl := views.Must(views.ParseFS(templates.FS,
+		"tailwind.gohtml",
+		"navigation.gohtml",
+		"footer.gohtml",
+		"home.gohtml"))
+	r.Get("/", controllers.StaticHandler(tpl))
+
 	r.Get("/signup", usersC.New)
 	r.Post("/signup", usersC.Create)
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
 	r.Post("/signout", usersC.ProcessSignOut)
-	r.Get("/users/me", usersC.CurrentUser)
+	r.Route("/users/me", func(r chi.Router) {
+		r.Use(umw.RequireUser)
+		r.Get("/", usersC.CurrentUser)
+	})
+	//	r.Get("/users/me", usersC.CurrentUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
-	umw := controllers.UserMiddleware{
-		SessionService: &sessionService,
-	}
-	csrfKey := "gFvi45R4f15xNblnEeZOQbfAVCYEIAU7"
-	csrfMw := csrf.Protect(
-		[]byte(csrfKey),
-		// TODO: fix
-		csrf.Secure(false),
-	)
-
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", csrfMw(umw.SetUser(r)))
+	http.ListenAndServe(":3000", r)
 }
