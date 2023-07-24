@@ -53,9 +53,6 @@ func Migrate(db *sql.DB, dir string) error {
 	return nil
 }
 
-func MigrateFS(db *sql.DB, migrationFS fs.FS, dir string) error {
-	goose.SetBaseFS(migrationFS)
-	defer func() {
 		goose.SetBaseFS(nil)
 	}()
 	return Migrate(db, dir)
