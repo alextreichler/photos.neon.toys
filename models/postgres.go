@@ -53,14 +53,6 @@ func Migrate(db *sql.DB, dir string) error {
 	return nil
 }
 
-func MigrateFS(db *sql.DB, migrationsFS fs.FS, dir string) error {
-	// In case the dir is an empty string, they probably meant the current directory and goose wants a period for that.
-	if dir == "" {
-		dir = "."
-	}
-	goose.SetBaseFS(migrationsFS)
-	defer func() {
-		// Ensure that we remove the FS on the off chance some other part of our app uses goose for migrations and doesn't want to use our FS.
 		goose.SetBaseFS(nil)
 	}()
 	return Migrate(db, dir)
