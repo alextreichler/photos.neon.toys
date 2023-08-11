@@ -19,16 +19,18 @@
           </a>
       </li>
       <li class="nav-item">
+     {{if currentUser}}
         <form action="/signout" class="px-3 py-2 flex items-center text-s font-bold leading-snug hover:opacity-75 hover:underline" method="post">
           <div class="hidden">
             {{csrfField}}
           </div>
-          <button type="submit">Logout</button>
+          <button type="submit">Sign out</button>
         </form>
       </li>
+      {{else}}
         <li class="nav-item">
           <a class="px-3 py-2 flex items-center text-s  font-bold leading-snug hover:opacity-75 hover:underline" href="signin">
-            <span class="ml-2">Log in</span>
+            <span class="ml-2">Sign in</span>
           </a>
         </li>
         <li class="nav-item">
@@ -36,6 +38,7 @@
             <span class="ml-2">Sign up</span>
           </a>
         </li>
+      {{end}}
       </ul>
     </div>
   </div>
